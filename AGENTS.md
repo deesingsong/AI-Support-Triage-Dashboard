@@ -2,6 +2,7 @@
 
 A local decision router complements (never replaces) agent judgment:
 
+- **Persistence default:** Neon serverless Postgres only. Supabase is deprecated for this and all future projects — never add Supabase deps, clients, or env vars.
 - **Server:** `gliner25_decide` → `D:\1Portfolio\Developer\Global\Gliner2.5\.venv\Scripts\python.exe D:\1Portfolio\Developer\Global\Gliner2.5\integration\mcp_server.py` (stdio, CPU, offline, timeout 300s)
 - **Tools:** `decide_advisory` (prompt → workflow/tool-posture/reasoning/risk/context/verification priors), `decide_agent_state` (goal + observed_state + last_action → phase/next-action/escalation/completion priors), `route_prompt_hook` (non-blocking UserPromptSubmit shape), `classify_text` (custom schema)
 - **Policy:** consult `decide_advisory` at task start for multi-step work, `decide_agent_state` after exploration and before declaring completion. Treat output as priors — independently verify evidence, permissions, and acceptance criteria. It cannot approve, execute, edit, or block anything.
