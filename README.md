@@ -21,10 +21,21 @@ npm run dev   # http://localhost:3000
 
 ## Neon Postgres (optional persistence)
 
-1. Create a project at neon.tech → copy the pooled `DATABASE_URL`
-2. Run `neon/schema.sql` in the Neon SQL Editor (creates `tickets` + indexes; `pgcrypto` for UUIDs)
-3. Set `DATABASE_URL` in `.env.local` (server-side only — never `NEXT_PUBLIC_`, never committed)
-4. `GET /api/tickets` reads from Neon, `POST /api/triage` inserts; without `DATABASE_URL` both fall back to local seed data
+Config-as-code via the [Neon CLI](https://neon.com/docs/cli): the branch env is pulled into
+`.env.local` (git-ignored) and the schema is applied by a script — no manual copy/paste.
+
+```bash
+npm i -g neon@latest && neon login           # browser OAuth
+neon link --project-id <id> --branch production -y   # writes .neon + pulls DATABASE_URL
+neon config init -s none --install           # scaffolds neon.ts policy (@neon/config)
+neon deploy                                   # applies neon.ts, re-pulls branch env
+node scripts/apply-schema.mjs                 # applies neon/schema.sql (idempotent)
+node scripts/verify-db.mjs                    # row count + direct query check
+```
+
+- `DATABASE_URL` is server-side only (never `NEXT_PUBLIC_`, never committed; `.env.local` is ignored)
+- `GET /api/tickets` reads from Neon, `POST /api/triage` inserts; without `DATABASE_URL` both fall back to local seed data
+- Schema (`neon/schema.sql`): `tickets` table + status/priority/created-at indexes, `pgcrypto` for `gen_random_uuid()`
 
 ## Tests
 
