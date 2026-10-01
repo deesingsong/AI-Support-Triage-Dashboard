@@ -1,4 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Insight Board — AI Support Triage Dashboard
+
+Live demo triages every ticket by **priority (P0–P3), sentiment, topic + SLA risk** — via HuggingFace transformers when `HF_TOKEN` is set, otherwise the built-in rules engine (fully offline).
+
+**Stack:** Next.js 16 (App Router, TypeScript) · Tailwind 4 · Zustand · Recharts · Supabase-ready (Postgres + RLS) · HuggingFace Inference · Playwright e2e
+
+## Run locally
+
+```bash
+cd insight-board
+npm install
+npm run dev   # http://localhost:3000
+```
+
+## AI triage
+
+- `POST /api/triage` → `{ title, body, customer }` → classified ticket JSON
+- `GET /api/tickets` → seed ticket list
+- `src/lib/triage.ts` — HF `SamLowe/roberta-base-go_emotions` (sentiment) + `facebook/bart-large-mnli` (zero-shot topic), falls back to `src/lib/triage-rules.ts` on any failure
+- Set `HF_TOKEN` in `.env.local` (copy from `.env.example`) for live AI; without it the demo still works offline ($0, no API usage)
+
+## Supabase (optional persistence)
+
+1. Create project at supabase.com → SQL editor → run `supabase/schema.sql`
+2. Set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local`
+3. Tickets persist to Postgres with RLS (public read, authenticated write for demo)
+
+## Tests
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+npx playwright install chromium
+npx playwright test
+```
+
+## Deploy to Vercel
+
+```bash
+npm i -g vercel && vercel --prod
+# add env vars HF_TOKEN / NEXT_PUBLIC_SUPABASE_* in dashboard
+```
+
+## Cost
+
+$0 as built: rules engine is local code (no API), seed data is local, no DB calls until you add keys. HF + Vercel + Supabase free tiers cover the live version.
 
 ## Getting Started
 
