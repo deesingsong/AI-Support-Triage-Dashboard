@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Insight Board — AI Support Triage",
-  description: "AI-powered support triage dashboard: classify, prioritize and resolve tickets faster. Next.js + Supabase + HuggingFace.",
+  description: "AI-powered support triage dashboard: classify, prioritize and resolve tickets faster. Next.js + Neon + HuggingFace.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

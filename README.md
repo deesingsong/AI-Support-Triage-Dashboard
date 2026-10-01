@@ -2,7 +2,7 @@
 
 Live demo triages every ticket by **priority (P0–P3), sentiment, topic + SLA risk** — via HuggingFace transformers when `HF_TOKEN` is set, otherwise the built-in rules engine (fully offline).
 
-**Stack:** Next.js 16 (App Router, TypeScript) · Tailwind 4 · Zustand · Recharts · Supabase-ready (Postgres + RLS) · HuggingFace Inference · Playwright e2e
+**Stack:** Next.js 16 (App Router, TypeScript) · Tailwind 4 · Zustand · Recharts · Neon serverless Postgres · HuggingFace Inference · Playwright e2e
 
 ## Run locally
 
@@ -19,11 +19,12 @@ npm run dev   # http://localhost:3000
 - `src/lib/triage.ts` — HF `SamLowe/roberta-base-go_emotions` (sentiment) + `facebook/bart-large-mnli` (zero-shot topic), falls back to `src/lib/triage-rules.ts` on any failure
 - Set `HF_TOKEN` in `.env.local` (copy from `.env.example`) for live AI; without it the demo still works offline ($0, no API usage)
 
-## Supabase (optional persistence)
+## Neon Postgres (optional persistence)
 
-1. Create project at supabase.com → SQL editor → run `supabase/schema.sql`
-2. Set `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local`
-3. Tickets persist to Postgres with RLS (public read, authenticated write for demo)
+1. Create a project at neon.tech → copy the pooled `DATABASE_URL`
+2. Run `neon/schema.sql` in the Neon SQL Editor (creates `tickets` + indexes; `pgcrypto` for UUIDs)
+3. Set `DATABASE_URL` in `.env.local` (server-side only — never `NEXT_PUBLIC_`, never committed)
+4. `GET /api/tickets` reads from Neon, `POST /api/triage` inserts; without `DATABASE_URL` both fall back to local seed data
 
 ## Tests
 
@@ -39,12 +40,12 @@ npx playwright test
 
 ```bash
 npm i -g vercel && vercel --prod
-# add env vars HF_TOKEN / NEXT_PUBLIC_SUPABASE_* in dashboard
+# add env vars DATABASE_URL / HF_TOKEN in dashboard
 ```
 
 ## Cost
 
-$0 as built: rules engine is local code (no API), seed data is local, no DB calls until you add keys. HF + Vercel + Supabase free tiers cover the live version.
+$0 as built: rules engine is local code (no API), seed data is local, no DB calls until you add keys. HF + Vercel + Neon free tiers cover the live version.
 
 ## Getting Started
 

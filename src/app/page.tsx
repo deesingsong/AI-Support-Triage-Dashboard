@@ -32,7 +32,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-8 border-t border-zinc-800 pt-4 text-xs text-zinc-500">
-        Next.js 16 · TypeScript · Tailwind · Supabase-ready · HuggingFace AI · Recharts — seed data is local; connect Supabase env vars to persist.
+        Next.js 16 · TypeScript · Tailwind · Neon Postgres · HuggingFace AI · Recharts — seed data is local; set DATABASE_URL to persist.
       </footer>
     </div>
   );
