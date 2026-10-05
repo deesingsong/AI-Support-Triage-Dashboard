@@ -11,9 +11,8 @@ export default function Home() {
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400">Insight Board · AI triage demo</p>
           <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">Support Triage Dashboard</h1>
           <p className="mt-2 max-w-2xl text-sm text-zinc-400">
-            Every ticket is auto-classified by priority, sentiment and topic — via HuggingFace transformers
-            when <code className="rounded bg-zinc-800 px-1">HF_TOKEN</code> is set, otherwise by the built-in rules engine.
-            Works fully offline for the demo.
+            Every ticket is read by AI and sorted by urgency, topic and customer mood,
+            so the most urgent issues rise to the top.
           </p>
         </div>
         <a href="/api/tickets" target="_blank" rel="noreferrer"
@@ -32,7 +31,7 @@ export default function Home() {
       </main>
 
       <footer className="mt-8 border-t border-zinc-800 pt-4 text-xs text-zinc-500">
-        Next.js 16 · TypeScript · Tailwind · Neon Postgres · HuggingFace AI · Recharts — seed data is local; set DATABASE_URL to persist.
+        Insight Board · AI support triage demo
       </footer>
     </div>
   );

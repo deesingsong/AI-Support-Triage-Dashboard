@@ -34,8 +34,8 @@ export const PRIORITY_META: Record<
   Priority,
   { label: string; color: string; sla: string }
 > = {
-  p0: { label: "P0 · Critical", color: "bg-red-500", sla: "4h" },
-  p1: { label: "P1 · High", color: "bg-orange-500", sla: "24h" },
-  p2: { label: "P2 · Normal", color: "bg-yellow-500", sla: "72h" },
-  p3: { label: "P3 · Low", color: "bg-emerald-500", sla: "1wk" },
+  p0: { label: "Urgent", color: "bg-red-500", sla: "4h" },
+  p1: { label: "High", color: "bg-orange-500", sla: "24h" },
+  p2: { label: "Normal", color: "bg-yellow-500", sla: "72h" },
+  p3: { label: "Low", color: "bg-emerald-500", sla: "1wk" },
 };

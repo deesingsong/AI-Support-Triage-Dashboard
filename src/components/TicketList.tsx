@@ -29,7 +29,7 @@ export function TicketList() {
         ))}
         <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search tickets, topics, customers…"
           className="ml-auto min-w-52 flex-1 rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-1.5 text-sm outline-none placeholder:text-zinc-600 focus:border-emerald-500" />
-        <button onClick={reset} className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200">Reset demo</button>
+        <button onClick={reset} className="rounded-full border border-zinc-700 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200">Reset list</button>
       </div>
 
       <ul className="mt-4 grid gap-3">
@@ -42,8 +42,8 @@ export function TicketList() {
               </span>
               <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-zinc-300">{t.topic}</span>
               <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-zinc-300">{t.sentiment}</span>
-              <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-zinc-400">{Math.round(t.confidence * 100)}% · {t.source}</span>
-              <span className="ml-auto text-zinc-500">SLA {t.slaHours}h · {formatDistanceToNow(new Date(t.createdAt), { addSuffix: true })}</span>
+              <span className="rounded-full bg-zinc-800 px-2.5 py-1 text-zinc-400">{Math.round(t.confidence * 100)}% match</span>
+              <span className="ml-auto text-zinc-500">Reply in {t.slaHours}h · {formatDistanceToNow(new Date(t.createdAt), { addSuffix: true })}</span>
             </div>
             <h3 className="mt-2 font-semibold text-zinc-50">{t.title}</h3>
             <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{t.body}</p>

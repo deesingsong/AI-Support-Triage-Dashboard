@@ -23,7 +23,7 @@ export function Charts() {
   return (
     <div className="grid gap-3 lg:grid-cols-3">
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-4">
-        <h3 className="text-sm font-semibold text-zinc-200">Tickets by priority</h3>
+        <h3 className="text-sm font-semibold text-zinc-200">Tickets by urgency</h3>
         <div className="mt-2 h-48">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={byPriority}>
@@ -57,9 +57,9 @@ export function Charts() {
         </div>
       </div>
       <div className="flex flex-col justify-center rounded-2xl border border-red-900/60 bg-red-950/30 p-5">
-        <p className="text-xs uppercase tracking-wider text-red-300">SLA risk right now</p>
+        <p className="text-xs uppercase tracking-wider text-red-300">Needs a reply soon</p>
         <p className="mt-1 text-5xl font-bold text-red-300">{slaRisk}</p>
-        <p className="mt-2 text-sm text-red-200/70">unresolved P0/P1 tickets breaching 4–24h SLA. Resolve P0s first to protect CSAT.</p>
+        <p className="mt-2 text-sm text-red-200/70">open urgent tickets past their reply time. Handle these first.</p>
       </div>
     </div>
   );

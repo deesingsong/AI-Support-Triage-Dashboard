@@ -11,6 +11,6 @@ test("new ticket gets triaged", async ({ page }) => {
   await page.getByPlaceholder(/Title/).fill("Urgent: checkout 500 errors for all users");
   await page.getByPlaceholder(/Describe the issue/).fill("Since this morning every checkout fails with a 500 error, enterprise customers blocked, need help ASAP");
   await page.getByPlaceholder(/customer@/).fill("test@acme.co");
-  await page.getByRole("button", { name: /Submit \+ Auto-triage/ }).click();
+  await page.getByRole("button", { name: /Submit ticket/ }).click();
   await expect(page.getByText(/Triaged as/i)).toBeVisible({ timeout: 15_000 });
 });

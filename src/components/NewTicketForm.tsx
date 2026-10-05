@@ -40,8 +40,8 @@ export function NewTicketForm() {
 
   return (
     <form onSubmit={submit} className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
-      <h2 className="text-lg font-semibold">New ticket — AI triage on submit</h2>
-      <p className="mt-1 text-sm text-zinc-400">Try: “Production outage, checkout 500 for all users, need help ASAP”</p>
+      <h2 className="text-lg font-semibold">New ticket — sorted on submit</h2>
+      <p className="mt-1 text-sm text-zinc-400">Try: “Checkout is down for all users, need help ASAP”</p>
       <div className="mt-4 grid gap-3">
         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title (min 4 chars)"
           className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-sm outline-none placeholder:text-zinc-600 focus:border-emerald-500" />
@@ -55,12 +55,12 @@ export function NewTicketForm() {
         <div className="mt-3 rounded-xl border border-emerald-800 bg-emerald-950/40 p-3 text-sm">
           <span className={`inline-block h-2 w-2 rounded-full ${PRIORITY_META[last.priority].color}`} />{" "}
           Triaged as <b>{PRIORITY_META[last.priority].label}</b> · {last.topic} · {last.sentiment} ·{" "}
-          {Math.round(last.confidence * 100)}% via {last.source}
+          {Math.round(last.confidence * 100)}% match
         </div>
       )}
       <button disabled={!valid || loading}
         className="mt-4 w-full rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-zinc-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-40">
-        {loading ? "Triaging with AI…" : "Submit + Auto-triage"}
+        {loading ? "Sorting…" : "Submit ticket"}
       </button>
     </form>
   );
