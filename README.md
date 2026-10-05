@@ -10,8 +10,8 @@ HuggingFace Inference · Playwright
 
 ---
 
-![Full dashboard](docs/screenshots/01-dashboard-full.png)
-*The full board: KPI stats, priority/topic charts, SLA-risk panel, submit form and filterable ticket feed.*
+![Dashboard overview - stats, urgency and topic charts](docs/screenshots/dashboard.jpg)
+*The full board: KPI stats, urgency and topic charts, reply-risk panel, submit form and ticket queue.*
 
 ---
 
@@ -55,8 +55,8 @@ What the POC **does** prove:
 - **JSON API** — GET /api/tickets returns tickets plus source (neon or seed),
   so consumers always know whether they are reading live data.
 
-![Top of the board](docs/screenshots/02-dashboard-top.png)
-*Stats bar plus charts: the how-bad / what-is-it view.*
+![Ticket queue - submit form and sorted tickets](docs/screenshots/dashboard-bottom.jpg)
+*New-ticket form and queue: each ticket shows urgency, topic, mood, match rate and reply time.*
 
 ---
 
@@ -98,9 +98,19 @@ is auditable in one small file.
 blank page, a PII-in-logs security report, plus feature requests and praise to
 exercise the low-priority path. Each seed is pre-triaged through the rules
 engine at import time, giving the offline demo a believable P0-P3 spread with
-staggered timestamps so the SLA-risk panel has something to chew on.
+staggered timestamps so the reply-risk panel has something to chew on.
 
-![Raw API — GET /api/tickets](docs/screenshots/03-api-tickets.png)
+### The JSON API (no screenshot needed - try it live)
+
+`GET /api/tickets` returns the queue as JSON: an array of tickets (id, title,
+body, customer, status, urgency, mood, topic, match rate, reply window,
+created-at) plus a `source` field that is `neon` when reading live database
+rows or `seed` when serving the built-in demo set. `POST /api/triage` accepts
+`{ title, body, customer }`, validates it strictly (title 4-200 chars, body
+10-5000, customer an email or 2-120 chars - invalid input gets a `400`, never
+a `500`), classifies it, saves it when the database is configured, and returns
+`{ ticket, source }`. Both endpoints are typed end-to-end with the frontend
+store, so the dashboard and any API consumer always agree on the shape.
 
 
 ## How it works
@@ -124,15 +134,12 @@ neon/schema.sql (tickets table, pgcrypto, 3 indexes), scripts/apply-schema.mjs
 plus verify-db.mjs plus wipe-tickets.mjs plus cleanup-verify.mjs (schema and
 hygiene), e2e/board.spec.ts (Playwright: submit shows badge; status filter).
 
-![Classify-and-persist round trip — POST /api/triage](docs/screenshots/04-api-triage.png)
-*A live round trip: ticket triaged and persisted (`source: neon`).*
-
-Try it: submit "Production outage, checkout 500 for all users, need help ASAP"
-and the bug pattern plus urgency booster fire — P0 Critical, angry, 88 percent,
-SLA 4h, persisted as source neon. Submit "Love the product! Two asks:
-Salesforce sync and dark mode" and the opposite path fires - feature-request,
-positive, P3 Low, 168h SLA. Same form, same latency, correctly opposite
-urgency. That contrast is the whole pitch.
+A typical round trip, described: submit *"Checkout is down for all users, need
+help ASAP"* and the bug pattern plus urgency booster fire - Urgent, angry,
+88 percent match, 4-hour reply, saved to the database. Submit *"Love the
+product! Two asks: Salesforce sync and dark mode"* and the opposite path
+fires - feature-request, positive, Low, 168-hour reply. Same form, same speed,
+correctly opposite urgency. That contrast is the whole pitch.
 
 
 ---
